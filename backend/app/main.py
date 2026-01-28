@@ -8,7 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import List, Optional
+from contextlib import asynccontextmanager
 import os
+import asyncio
 from dotenv import load_dotenv
 
 from .chat import ChatEngine
@@ -17,11 +19,47 @@ from .rag import RAGPipeline
 # Load environment variables
 load_dotenv()
 
-# Initialize FastAPI app
+# Initialize components
+rag_pipeline = None
+chat_engine = None
+initialization_complete = False
+
+
+async def initialize_components():
+    """Initialize RAG pipeline and chat engine in background."""
+    global rag_pipeline, chat_engine, initialization_complete
+    
+    print("🚀 Initializing AI Portfolio Chatbot...")
+    
+    # Initialize RAG pipeline with knowledge base
+    data_dir = os.path.join(os.path.dirname(__file__), "..", "..", "data")
+    data_dir = os.path.abspath(data_dir)
+    rag_pipeline = RAGPipeline(data_directory=data_dir)
+    await rag_pipeline.initialize()
+    
+    # Initialize chat engine
+    chat_engine = ChatEngine(rag_pipeline=rag_pipeline)
+    
+    initialization_complete = True
+    print("✅ Chatbot ready!")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifespan context manager - start background initialization."""
+    # Start initialization in background (non-blocking)
+    asyncio.create_task(initialize_components())
+    yield
+    # Cleanup (if needed)
+    print("👋 Shutting down chatbot...")
+
+
+# Initialize FastAPI app with lifespan
 app = FastAPI(
     title="AI Portfolio Chatbot",
     description="An intelligent chatbot showcasing AI engineering skills",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # Configure CORS - Allow your website
@@ -38,30 +76,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Initialize components
-rag_pipeline = None
-chat_engine = None
-
-
-@app.on_event("startup")
-async def startup_event():
-    """Initialize RAG pipeline and chat engine on startup."""
-    global rag_pipeline, chat_engine
-    
-    print("🚀 Initializing AI Portfolio Chatbot...")
-    
-    # Initialize RAG pipeline with knowledge base
-    # Go up two levels from app/ to get to ai-portfolio-chatbot, then into data
-    data_dir = os.path.join(os.path.dirname(__file__), "..", "..", "data")
-    data_dir = os.path.abspath(data_dir)
-    rag_pipeline = RAGPipeline(data_directory=data_dir)
-    await rag_pipeline.initialize()
-    
-    # Initialize chat engine
-    chat_engine = ChatEngine(rag_pipeline=rag_pipeline)
-    
-    print("✅ Chatbot ready!")
 
 
 # Request/Response Models
@@ -112,7 +126,8 @@ async def root():
     return {
         "status": "online",
         "message": "AI Portfolio Chatbot API",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "ready": initialization_complete
     }
 
 
@@ -120,9 +135,10 @@ async def root():
 async def health_check():
     """Detailed health check."""
     return {
-        "status": "healthy",
+        "status": "healthy" if initialization_complete else "initializing",
         "rag_initialized": rag_pipeline is not None,
-        "chat_engine_ready": chat_engine is not None
+        "chat_engine_ready": chat_engine is not None,
+        "ready": initialization_complete
     }
 
 
@@ -131,6 +147,13 @@ async def chat(request: ChatRequest, req: Request):
     """
     Main chat endpoint - handles user messages and returns AI responses.
     """
+    # Check if initialization is complete
+    if not initialization_complete:
+        raise HTTPException(
+            status_code=503,
+            detail="Chatbot is still initializing. Please try again in a few seconds."
+        )
+    
     # Get client IP for rate limiting
     client_ip = req.client.host if req.client else "unknown"
     
