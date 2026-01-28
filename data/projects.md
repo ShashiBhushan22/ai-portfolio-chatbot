@@ -1,102 +1,129 @@
-# Projects Portfolio
+# Projects Portfolio - Shashi Bhushan Jha
 
-## AI Portfolio Chatbot 🤖
-
-**Status**: Active | **Year**: 2026
+## 1. 5G NOMA Receiver Implementation
 
 ### Overview
-An intelligent conversational AI assistant embedded on my portfolio website. This chatbot demonstrates practical AI engineering skills including LLM integration, RAG (Retrieval Augmented Generation), and production deployment.
+Implementation of a 5G NOMA (Non-Orthogonal Multiple Access) receiver system as part of M.Tech research at IIT Ropar. This project demonstrates advanced signal processing techniques for next-generation wireless communication systems.
 
-### Technical Implementation
-- **Backend Framework**: FastAPI for high-performance async API
-- **LLM Integration**: Support for multiple providers (Groq, OpenAI)
-- **RAG Pipeline**: LangChain + FAISS for context-aware responses
-- **Embeddings**: OpenAI text-embedding-3-small / HuggingFace all-MiniLM-L6-v2
-- **Streaming**: Server-Sent Events for real-time response streaming
-- **Deployment**: Docker containerized, deployable to Railway/Render
+### Technical Details
+- **Technology Stack**: Python, NumPy, SciPy, MATLAB
+- **Domain**: 5G Communications, Signal Processing
+- **Institution**: IIT Ropar
 
 ### Key Features
-1. **Context-Aware Responses**: Uses RAG to retrieve relevant information about my background
-2. **Conversation Memory**: Maintains context across multiple messages
-3. **Rate Limiting**: Protects against API abuse
-4. **Streaming Responses**: Real-time token-by-token output
-5. **Embeddable Widget**: Easy integration with any website
+- Successive Interference Cancellation (SIC) algorithm implementation
+- Multi-user detection and signal separation
+- Channel estimation and equalization
+- Performance analysis under various channel conditions
+- Simulation of uplink and downlink NOMA scenarios
 
 ### Skills Demonstrated
-- LLM/GenAI Integration
-- RAG Architecture Design
-- Prompt Engineering
-- API Development
-- Vector Databases
-- Full-Stack Development
-- Cloud Deployment
-
-### Links
-- **Live Demo**: https://shashibhushanjha.me
-- **Source Code**: [GitHub Repository]
+- Deep understanding of 5G communication standards
+- Signal processing algorithm development
+- Mathematical modeling and simulation
+- Performance optimization techniques
 
 ---
 
-## [Project 2 Name] 🚀
-
-**Status**: [Status] | **Year**: [Year]
+## 2. Smart Surveillance System
 
 ### Overview
-[Brief description of the project]
+Development of an intelligent surveillance system using computer vision and machine learning for real-time monitoring and threat detection.
 
-### Technical Implementation
-- [Technology 1]
-- [Technology 2]
-- [Technology 3]
+### Technical Details
+- **Technology Stack**: Python, OpenCV, YOLOv5, NumPy
+- **Domain**: Computer Vision, Machine Learning
 
 ### Key Features
-1. [Feature 1]
-2. [Feature 2]
-3. [Feature 3]
+- Real-time object detection using YOLO architecture
+- Motion detection and tracking algorithms
+- Alert system for suspicious activities
+- Video stream processing and analysis
+- Face detection capabilities
 
 ### Skills Demonstrated
-- [Skill 1]
-- [Skill 2]
-
-### Links
-- [Relevant links]
+- Computer vision techniques
+- Machine learning model deployment
+- Real-time video processing
+- System integration
 
 ---
 
-## [Project 3 Name] 📊
-
-**Status**: [Status] | **Year**: [Year]
+## 3. Audio Signal Processing Suite
 
 ### Overview
-[Brief description of the project]
+Comprehensive audio signal processing toolkit implementing various digital signal processing algorithms for audio analysis and enhancement.
 
-### Technical Implementation
-- [Technology 1]
-- [Technology 2]
+### Technical Details
+- **Technology Stack**: Python, Librosa, NumPy, SciPy
+- **Domain**: Digital Signal Processing, Audio Engineering
 
 ### Key Features
-1. [Feature 1]
-2. [Feature 2]
+- Speech enhancement algorithms
+- Noise reduction using spectral subtraction
+- Audio feature extraction (MFCC, spectral features)
+- Real-time audio filtering
+- Audio visualization tools
+
+### Skills Demonstrated
+- DSP algorithm implementation
+- Audio analysis techniques
+- Filter design and implementation
+- Frequency domain processing
 
 ---
 
-## Open Source Contributions
+## 4. Echo Cancellation System
 
-### [Contribution 1]
-- **Project**: [Project Name]
-- **Contribution**: [Description of contribution]
-- **Link**: [GitHub/PR Link]
+### Overview
+Implementation of adaptive echo cancellation algorithms for real-time audio communication systems, improving call quality in VoIP and conferencing applications.
+
+### Technical Details
+- **Technology Stack**: Python, NumPy, SciPy, Adaptive Filters
+- **Domain**: Adaptive Signal Processing
+
+### Key Features
+- Normalized Least Mean Squares (NLMS) algorithm
+- Recursive Least Squares (RLS) implementation
+- Real-time echo path estimation
+- Double-talk detection
+- Performance metrics evaluation (ERLE, convergence)
+
+### Skills Demonstrated
+- Adaptive filtering techniques
+- Real-time audio processing
+- Algorithm optimization
+- Signal quality improvement
 
 ---
 
-## Research & Experiments
+## 5. Swarm Drone Research (Current)
 
-### [Experiment 1]
-- **Topic**: [Topic]
-- **Description**: [What you explored/learned]
-- **Findings**: [Key findings]
+### Overview
+Ongoing research project at SkyFlock Uaviation focusing on swarm drone architectures and multi-drone coordination systems.
+
+### Technical Details
+- **Technology Stack**: ROS2, Gazebo, PX4, MAVSDK, Python
+- **Domain**: Robotics, UAV Systems
+
+### Key Features
+- Multi-drone simulation environment setup
+- Inter-drone communication protocols
+- Swarm behavior algorithms
+- Formation control implementation
+- Telemetry data analysis
+
+### Skills Demonstrated
+- Robotics and autonomous systems
+- Simulation environment development
+- Multi-agent coordination
+- Embedded systems programming
 
 ---
 
-*This portfolio showcases my practical experience in AI/ML engineering. 
-Each project demonstrates real-world application of modern AI technologies.*
+## GitHub Repositories
+All projects are available on my GitHub: https://github.com/ShashiBhushan22
+
+---
+
+*For detailed discussions on any project or collaboration opportunities, feel free to reach out!*
