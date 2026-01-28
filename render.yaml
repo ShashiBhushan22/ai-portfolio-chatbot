@@ -1,0 +1,15 @@
+# Render deployment configuration
+# https://render.com
+
+services:
+  - type: web
+    name: ai-portfolio-chatbot
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false

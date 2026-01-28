@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot Widget Demo</title>
+    <link rel="stylesheet" href="chat-widget.css">
+</head>
+<body>
+    <div class="demo-page">
+        <h1>🤖 Shashi's AI Assistant</h1>
+        <p>This is a demo page showing the embedded chatbot widget.</p>
+        <p>Click the chat button in the bottom-right corner to start a conversation!</p>
+        
+        <h2>Integration Instructions</h2>
+        <p>To add this chatbot to your website, include the following code before the closing <code>&lt;/body&gt;</code> tag:</p>
+        
+        <pre><code>&lt;!-- AI Chatbot Widget --&gt;
+&lt;link rel="stylesheet" href="https://your-domain.com/chat-widget.css"&gt;
+&lt;script src="https://your-domain.com/chat-widget.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    ChatWidget.init({
+        apiUrl: 'https://your-api-domain.com',
+        theme: 'dark'
+    });
+&lt;/script&gt;</code></pre>
+    </div>
+
+    <!-- Chat Widget Container (injected by JS) -->
+    <div id="chat-widget-container"></div>
+
+    <script src="chat-widget.js"></script>
+    <script>
+        // Initialize the chat widget
+        ChatWidget.init({
+            apiUrl: 'http://localhost:8000', // Change to your deployed API URL
+            theme: 'dark',
+            position: 'bottom-right',
+            greeting: "Hi! I'm Shashi's AI Assistant. How can I help you today?"
+        });
+    </script>
+</body>
+</html>

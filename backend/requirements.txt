@@ -1,0 +1,31 @@
+# Backend Dependencies
+# AI Portfolio Chatbot
+
+# Web Framework
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+
+# LLM Providers
+langchain>=0.2.0
+langchain-openai>=0.1.0
+langchain-groq>=0.1.0
+langchain-community>=0.2.0
+langchain-core>=0.2.0
+
+# Embeddings & Vector Store
+sentence-transformers>=2.2.0
+faiss-cpu>=1.7.4
+
+# Document Loaders
+pypdf>=4.0.0
+markdown>=3.5.0
+
+# Utilities
+httpx>=0.26.0
+aiofiles>=23.2.0
+python-multipart>=0.0.6
+
+# Optional: For production
+gunicorn>=21.2.0
