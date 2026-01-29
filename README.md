@@ -148,6 +148,10 @@ Groq offers a generous free tier and their inference speed is remarkable. The Ll
 
 MIT License - feel free to use this as a template for your own portfolio chatbot!
 
+## � Acknowledgments
+
+This project was built with significant help from **Claude (Anthropic)** - an AI assistant that helped with architecture decisions, code implementation, debugging deployment issues, and writing this documentation. It's a great example of human-AI collaboration in software development.
+
 ## 👤 About Me
 
 **Shashi Bhushan Jha**
@@ -159,5 +163,5 @@ MIT License - feel free to use this as a template for your own portfolio chatbot
 
 ---
 
-*This chatbot itself is a demonstration of my AI engineering capabilities. Feel free to try it out on my website!*
+*This chatbot demonstrates how AI tools can help developers build and deploy projects efficiently. Built with human creativity + AI assistance.* 🤝
 
