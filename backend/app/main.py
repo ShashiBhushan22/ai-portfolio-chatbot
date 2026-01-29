@@ -1,6 +1,7 @@
 """
 AI Portfolio Chatbot - Main FastAPI Application
 Author: Shashi Bhushan Jha
+Lightweight version for Render free tier (512MB RAM)
 """
 
 from fastapi import FastAPI, HTTPException, Request
@@ -13,8 +14,9 @@ import os
 import asyncio
 from dotenv import load_dotenv
 
-from .chat import ChatEngine
-from .rag import RAGPipeline
+# Use lightweight versions (no PyTorch, no LangChain)
+from .chat_lightweight import ChatEngine
+from .rag_lightweight import RAGPipeline
 
 # Load environment variables
 load_dotenv()
@@ -29,7 +31,7 @@ async def initialize_components():
     """Initialize RAG pipeline and chat engine in background."""
     global rag_pipeline, chat_engine, initialization_complete
     
-    print("🚀 Initializing AI Portfolio Chatbot...")
+    print("🚀 Initializing AI Portfolio Chatbot (Lightweight)...")
     
     # Initialize RAG pipeline with knowledge base
     data_dir = os.path.join(os.path.dirname(__file__), "..", "..", "data")
