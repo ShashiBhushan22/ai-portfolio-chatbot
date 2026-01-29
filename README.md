@@ -1,34 +1,45 @@
 # 🤖 AI Portfolio Chatbot
 
-An intelligent conversational AI assistant for your portfolio website. This chatbot demonstrates practical AI engineering skills including LLM integration, RAG (Retrieval Augmented Generation), and production deployment.
+I built this AI-powered chatbot to showcase my skills in AI engineering. It's a conversational assistant that lives on my portfolio website ([shashibhushanjha.me](https://shashibhushanjha.me)) and can answer questions about my background, projects, and skills.
+
+This project demonstrates my expertise in:
+- **LLM Integration** - Using Groq's Llama 3.3 70B model
+- **RAG (Retrieval Augmented Generation)** - Context-aware responses from my knowledge base
+- **Full-Stack Development** - FastAPI backend + embeddable JavaScript widget
+- **Cloud Deployment** - Deployed on Render's free tier with optimized memory usage
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green.svg)
-![LangChain](https://img.shields.io/badge/LangChain-0.1-orange.svg)
+![Groq](https://img.shields.io/badge/Groq-Llama%203.3-orange.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+## 🎯 Why I Built This
+
+As an M.Tech student at IIT Ropar specializing in AI/ML and Signal Processing, I wanted a project that:
+1. Demonstrates practical AI engineering skills to potential employers
+2. Provides an interactive way for visitors to learn about my work
+3. Showcases end-to-end development from concept to deployment
 
 ## ✨ Features
 
-- **🧠 RAG-Powered Responses**: Context-aware answers using your resume and projects
-- **⚡ Streaming Responses**: Real-time token-by-token output
-- **💬 Conversation Memory**: Maintains context across messages
-- **🎨 Beautiful Widget**: Modern, responsive chat interface
-- **🔒 Rate Limiting**: Protection against API abuse
-- **🚀 Easy Deployment**: Docker-ready with Railway/Render configs
-- **💰 Cost-Effective**: Works with free Groq API or OpenAI
+- **🧠 RAG-Powered Responses** - The chatbot retrieves relevant context from my resume, projects, and about page before generating responses
+- **⚡ Fast Responses** - Powered by Groq's lightning-fast inference API
+- **💬 Conversation Memory** - Maintains context across messages in a session
+- **🎨 Clean Widget UI** - Modern, responsive chat interface that can be embedded on any website
+- **🔒 Rate Limiting** - Built-in protection against API abuse
+- **💰 Cost-Effective** - Runs on Groq's free tier + Render's free tier
 
 ## 🏗️ Architecture
 
 ```
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Chat Widget    │────▶│  FastAPI Server │────▶│   LLM (Groq/    │
-│  (JavaScript)   │     │  + RAG Pipeline │     │   OpenAI)       │
+│  Chat Widget    │────▶│  FastAPI Server │────▶│   Groq API      │
+│  (JavaScript)   │     │  + RAG Pipeline │     │  (Llama 3.3)    │
 └─────────────────┘     └────────┬────────┘     └─────────────────┘
                                  │
                         ┌────────▼────────┐
-                        │   FAISS Vector  │
-                        │     Store       │
-                        │ (Your Knowledge │
+                        │   TF-IDF Index  │
+                        │   (Knowledge    │
                         │     Base)       │
                         └─────────────────┘
 ```
@@ -39,136 +50,51 @@ An intelligent conversational AI assistant for your portfolio website. This chat
 ai-portfolio-chatbot/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py          # FastAPI application
-│   │   ├── chat.py          # Chat engine & LLM integration
-│   │   ├── rag.py           # RAG pipeline
-│   │   └── prompts.py       # System prompts
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   └── .env.example
+│   │   ├── main.py              # FastAPI application entry point
+│   │   ├── chat_lightweight.py  # Chat engine with Groq API
+│   │   ├── rag_lightweight.py   # TF-IDF based retrieval
+│   │   └── prompts.py           # System prompts & personality
+│   └── requirements.txt
 ├── frontend/
-│   ├── index.html           # Demo page
-│   ├── chat-widget.js       # Embeddable widget
-│   └── chat-widget.css      # Widget styles
+│   ├── chat-widget.js           # Embeddable chat widget
+│   └── chat-widget.css          # Widget styles
 ├── data/
-│   ├── resume.md            # Your resume
-│   ├── projects.md          # Project descriptions
-│   └── about.md             # About you
-├── docker-compose.yml
-├── railway.toml
-├── render.yaml
+│   ├── resume.md                # My resume
+│   ├── projects.md              # My project descriptions
+│   └── about.md                 # About me
 └── README.md
 ```
 
-## 🚀 Quick Start
+## 🛠️ Tech Stack
 
-### Prerequisites
+| Component | Technology | Why I Chose It |
+|-----------|------------|----------------|
+| **Backend** | FastAPI | Async support, automatic docs, type hints |
+| **LLM** | Groq (Llama 3.3 70B) | Free tier, incredibly fast inference |
+| **Retrieval** | TF-IDF (scikit-learn) | Lightweight, works within 512MB RAM |
+| **Hosting** | Render | Free tier, auto-deploys from GitHub |
+| **Frontend** | Vanilla JS | No build step, easy to embed anywhere |
 
-- Python 3.11+
-- Groq API key (free) or OpenAI API key
-
-### 1. Clone and Setup
+## 🚀 Running Locally
 
 ```bash
+# Clone the repo
+git clone https://github.com/ShashiBhushan22/ai-portfolio-chatbot.git
 cd ai-portfolio-chatbot
 
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
 # Install dependencies
 cd backend
 pip install -r requirements.txt
-```
 
-### 2. Configure Environment
+# Set your Groq API key (get free at https://console.groq.com)
+export GROQ_API_KEY=your_key_here
 
-```bash
-# Copy environment template
-cp .env.example .env
-
-# Edit .env and add your API key
-# GROQ_API_KEY=your_key_here (recommended - free!)
-# OR
-# OPENAI_API_KEY=your_key_here
-```
-
-### 3. Customize Knowledge Base
-
-Edit the files in `/data/` directory:
-- `resume.md` - Your resume and skills
-- `projects.md` - Your project descriptions
-- `about.md` - Personal information
-
-### 4. Run Locally
-
-```bash
-# From the backend directory
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-### 5. Test the API
-
-```bash
-# Health check
-curl http://localhost:8000/health
-
-# Send a message
-curl -X POST http://localhost:8000/chat \
-  -H "Content-Type: application/json" \
-  -d '{"message": "What are your skills?"}'
-```
-
-### 6. Test the Widget
-
-Open `frontend/index.html` in your browser to see the chat widget in action.
-
-## 🌐 Deployment
-
-### Option A: Railway (Recommended)
-
-1. Create account at [railway.app](https://railway.app)
-2. Connect your GitHub repository
-3. Add environment variables (`GROQ_API_KEY`)
-4. Deploy! Railway will use `railway.toml` config
-
-### Option B: Render
-
-1. Create account at [render.com](https://render.com)
-2. Create new Web Service from GitHub
-3. It will use `render.yaml` config
-4. Add environment variables
-5. Deploy!
-
-### Option C: Docker
-
-```bash
-# Build and run with Docker Compose
-docker-compose up --build
-
-# Or build manually
-cd backend
-docker build -t ai-chatbot .
-docker run -p 8000:8000 -e GROQ_API_KEY=your_key ai-chatbot
-```
-
-## 🔧 Embedding the Widget
-
-Add this code to your website before `</body>`:
-
-```html
-<!-- AI Chatbot Widget -->
-<link rel="stylesheet" href="https://your-domain.com/chat-widget.css">
-<div id="chat-widget-container"></div>
-<script src="https://your-domain.com/chat-widget.js"></script>
-<script>
-    ChatWidget.init({
-        apiUrl: 'https://your-api-domain.com',
-        theme: 'dark',  // or 'light'
-        position: 'bottom-right',
-        greeting: "Hi! I'm Shashi's AI Assistant. How can I help you?"
-    });
-</script>
+# Run the server
+uvicorn app.main:app --reload --port 8000
 ```
 
 ## 📊 API Endpoints
@@ -179,98 +105,59 @@ Add this code to your website before `</body>`:
 | `/health` | GET | Detailed health status |
 | `/chat` | POST | Send message, get response |
 | `/chat/stream` | POST | Streaming response (SSE) |
-| `/info` | GET | Chatbot info & suggestions |
 
-### Chat Request Example
+### Example Request
 
-```json
-{
-    "message": "What are your key skills?",
-    "conversation_history": [
-        {"role": "user", "content": "Hi"},
-        {"role": "assistant", "content": "Hello! How can I help?"}
-    ]
-}
+```bash
+curl -X POST https://ai-portfolio-chatbot-apme.onrender.com/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "What are your skills?"}'
 ```
 
-### Chat Response Example
+## 🎨 Embedding on Your Website
 
-```json
-{
-    "response": "My key skills include...",
-    "sources": ["resume.md", "projects.md"]
-}
+```html
+<link rel="stylesheet" href="path/to/chat-widget.css">
+<div id="chat-widget-container"></div>
+<script src="path/to/chat-widget.js"></script>
+<script>
+    ChatWidget.init({
+        apiUrl: 'https://your-backend-url.com',
+        theme: 'dark'
+    });
+</script>
 ```
 
-## ⚙️ Configuration
+## 💡 Technical Decisions
 
-### LLM Providers
+### Why TF-IDF instead of Vector Embeddings?
+Originally I used sentence-transformers with FAISS, but it required PyTorch (~900MB) which exceeded Render's free tier limit of 512MB. TF-IDF with scikit-learn achieves similar results for my small knowledge base while using only ~50MB.
 
-| Provider | Model | Cost | Setup |
-|----------|-------|------|-------|
-| **Groq** | Llama 3.1 70B | Free tier | [Get API key](https://console.groq.com) |
-| **OpenAI** | GPT-4o-mini | $0.15/M tokens | [Get API key](https://platform.openai.com) |
+### Why Groq instead of OpenAI?
+Groq offers a generous free tier and their inference speed is remarkable. The Llama 3.3 70B model produces high-quality responses comparable to GPT-4.
 
-### Environment Variables
+## 📈 Future Improvements
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `GROQ_API_KEY` | Groq API key | Yes (or OpenAI) |
-| `OPENAI_API_KEY` | OpenAI API key | Optional |
-
-## 🎨 Customization
-
-### Themes
-
-The widget supports `dark` and `light` themes. Customize colors in `chat-widget.css`:
-
-```css
-:root {
-    --chat-primary: #6366f1;
-    --chat-bg-dark: #1f2937;
-    /* ... */
-}
-```
-
-### Prompts
-
-Edit `backend/app/prompts.py` to customize:
-- System personality
-- Response style
-- Knowledge base integration
-
-## 🛡️ Security Considerations
-
-- ✅ Rate limiting implemented
-- ✅ Input sanitization
-- ✅ CORS configuration
-- ⚠️ Update `allow_origins` in production
-- ⚠️ Use HTTPS in production
-- ⚠️ Secure your API keys
-
-## 📈 Future Enhancements
-
-- [ ] Add user authentication
-- [ ] Implement conversation persistence
-- [ ] Add analytics dashboard
+- [ ] Add conversation persistence with a database
+- [ ] Implement streaming responses in the widget
+- [ ] Add analytics to track common questions
 - [ ] Support multiple languages
 - [ ] Add voice input/output
-- [ ] Implement feedback system
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License - feel free to use this as a template for your own portfolio chatbot!
 
-## 👤 Author
+## 👤 About Me
 
 **Shashi Bhushan Jha**
-- Website: [shashibhushanjha.me](https://shashibhushanjha.me)
-- GitHub: [@shashibhushanjha](https://github.com/shashibhushanjha)
+- 🎓 M.Tech at IIT Ropar (2024-2026)
+- 🔬 Research: 5G NOMA Receivers, Swarm Drones
+- 🌐 Website: [shashibhushanjha.me](https://shashibhushanjha.me)
+- 📧 Email: bhushan.gate2022@gmail.com
+- 💻 GitHub: [@ShashiBhushan22](https://github.com/ShashiBhushan22)
 
 ---
 
-Built with ❤️ and AI 🤖
+*This chatbot itself is a demonstration of my AI engineering capabilities. Feel free to try it out on my website!*
+
