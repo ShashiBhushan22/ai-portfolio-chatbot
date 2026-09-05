@@ -1,22 +1,22 @@
 # 🤖 AI Portfolio Chatbot
 
-I built this AI-powered chatbot to showcase my skills in AI engineering. It's a conversational assistant that lives on my portfolio website ([shashibhushanjha.me](https://shashibhushanjha.me)) and can answer questions about my background, projects, and skills.
+This conversational assistant lives on my portfolio website ([shashibhushanjha.me](https://shashibhushanjha.me)) and answers questions about my education, research, projects, and technical experience.
 
-This project demonstrates my expertise in:
-- **LLM Integration** - Using Groq's Llama 3.3 70B model
+The implementation includes:
+- **LLM Integration** - A configurable Groq production model with automatic fallback
 - **RAG (Retrieval Augmented Generation)** - Context-aware responses from my knowledge base
 - **Full-Stack Development** - FastAPI backend + embeddable JavaScript widget
 - **Cloud Deployment** - Deployed on Render's free tier with optimized memory usage
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green.svg)
-![Groq](https://img.shields.io/badge/Groq-Llama%203.3-orange.svg)
+![Groq](https://img.shields.io/badge/Groq-GPT--OSS-orange.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ## 🎯 Why I Built This
 
-As an M.Tech student at IIT Ropar specializing in AI/ML and Signal Processing, I wanted a project that:
-1. Demonstrates practical AI engineering skills to potential employers
+As an M.Tech graduate in Communication and Signal Processing, I wanted a project that:
+1. Makes my research profile easier for visitors to explore
 2. Provides an interactive way for visitors to learn about my work
 3. Showcases end-to-end development from concept to deployment
 
@@ -34,7 +34,7 @@ As an M.Tech student at IIT Ropar specializing in AI/ML and Signal Processing, I
 ```
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
 │  Chat Widget    │────▶│  FastAPI Server │────▶│   Groq API      │
-│  (JavaScript)   │     │  + RAG Pipeline │     │  (Llama 3.3)    │
+│  (JavaScript)   │     │  + RAG Pipeline │     │  (GPT-OSS)      │
 └─────────────────┘     └────────┬────────┘     └─────────────────┘
                                  │
                         ┌────────▼────────┐
@@ -54,14 +54,14 @@ ai-portfolio-chatbot/
 │   │   ├── chat_lightweight.py  # Chat engine with Groq API
 │   │   ├── rag_lightweight.py   # TF-IDF based retrieval
 │   │   └── prompts.py           # System prompts & personality
+│   ├── data/
+│   │   ├── resume.md             # CV facts
+│   │   ├── projects.md           # Project descriptions
+│   │   └── about.md              # Research profile
 │   └── requirements.txt
 ├── frontend/
 │   ├── chat-widget.js           # Embeddable chat widget
 │   └── chat-widget.css          # Widget styles
-├── data/
-│   ├── resume.md                # My resume
-│   ├── projects.md              # My project descriptions
-│   └── about.md                 # About me
 └── README.md
 ```
 
@@ -70,7 +70,7 @@ ai-portfolio-chatbot/
 | Component | Technology | Why I Chose It |
 |-----------|------------|----------------|
 | **Backend** | FastAPI | Async support, automatic docs, type hints |
-| **LLM** | Groq (Llama 3.3 70B) | Free tier, incredibly fast inference |
+| **LLM** | Groq (configurable production model) | Fast inference and model flexibility |
 | **Retrieval** | TF-IDF (scikit-learn) | Lightweight, works within 512MB RAM |
 | **Hosting** | Render | Free tier, auto-deploys from GitHub |
 | **Frontend** | Vanilla JS | No build step, easy to embed anywhere |
@@ -92,6 +92,10 @@ pip install -r requirements.txt
 
 # Set your Groq API key (get free at https://console.groq.com)
 export GROQ_API_KEY=your_key_here
+
+# Optional model overrides
+export GROQ_MODEL=openai/gpt-oss-120b
+export GROQ_FALLBACK_MODELS=openai/gpt-oss-20b
 
 # Run the server
 uvicorn app.main:app --reload --port 8000
@@ -134,7 +138,7 @@ curl -X POST https://ai-portfolio-chatbot-apme.onrender.com/chat \
 Originally I used sentence-transformers with FAISS, but it required PyTorch (~900MB) which exceeded Render's free tier limit of 512MB. TF-IDF with scikit-learn achieves similar results for my small knowledge base while using only ~50MB.
 
 ### Why Groq instead of OpenAI?
-Groq offers a generous free tier and their inference speed is remarkable. The Llama 3.3 70B model produces high-quality responses comparable to GPT-4.
+Groq provides low-latency inference and an OpenAI-compatible chat interface. The model IDs are environment-configurable so provider migrations do not require code changes.
 
 ## 📈 Future Improvements
 
@@ -155,8 +159,9 @@ This project was built with significant help from **Claude (Anthropic)** - an AI
 ## 👤 About Me
 
 **Shashi Bhushan Jha**
-- 🎓 M.Tech at IIT Ropar (2024-2026)
-- 🔬 Research: 5G NOMA Receivers, Swarm Drones
+- 🎓 M.Tech in Electrical Engineering, IIT Ropar (2024-2026)
+- 🔬 Completed research: analytical and simulated performance evaluation of generalized N-user NOMA systems
+- 🌱 Prospective interests: quantum communication, 6G, optical, ISAC, NTN, and satellite communication
 - 🌐 Website: [shashibhushanjha.me](https://shashibhushanjha.me)
 - 📧 Email: bhushan.gate2022@gmail.com
 - 💻 GitHub: [@ShashiBhushan22](https://github.com/ShashiBhushan22)

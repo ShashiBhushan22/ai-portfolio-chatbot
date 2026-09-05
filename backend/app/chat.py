@@ -36,10 +36,10 @@ class ChatEngine:
         # Try Groq first (free and fast)
         groq_api_key = os.getenv("GROQ_API_KEY")
         if groq_api_key:
-            print("🔷 Using Groq LLM (Llama 3.3 70B)")
+            print(f"Using Groq LLM ({os.getenv('GROQ_MODEL', 'openai/gpt-oss-120b')})")
             return ChatGroq(
                 api_key=groq_api_key,
-                model_name="llama-3.3-70b-versatile",
+                model_name=os.getenv("GROQ_MODEL", "openai/gpt-oss-120b"),
                 temperature=0.7,
                 max_tokens=1024,
             )

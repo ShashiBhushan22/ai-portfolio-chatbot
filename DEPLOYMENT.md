@@ -21,6 +21,8 @@ git push -u origin main
    - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 5. Add Environment Variable:
    - `GROQ_API_KEY`: your-groq-api-key
+   - `GROQ_MODEL`: `openai/gpt-oss-120b`
+   - `GROQ_FALLBACK_MODELS`: `openai/gpt-oss-20b`
 6. Click "Create Web Service"
 
 ### Step 3: Get Your Backend URL
@@ -110,6 +112,8 @@ app.add_middleware(
 | Variable | Description | Example |
 |----------|-------------|---------|
 | GROQ_API_KEY | Your Groq API key | gsk_xxxxx... |
+| GROQ_MODEL | Primary Groq production model | openai/gpt-oss-120b |
+| GROQ_FALLBACK_MODELS | Comma-separated fallback models | openai/gpt-oss-20b |
 
 ---
 

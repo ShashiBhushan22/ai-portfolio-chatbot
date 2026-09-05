@@ -7,15 +7,14 @@ Lightweight version for Render free tier (512MB RAM)
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
 from contextlib import asynccontextmanager
 import os
-import asyncio
 from dotenv import load_dotenv
 
 # Use lightweight versions (no PyTorch, no LangChain)
-from .chat_lightweight import ChatEngine
+from .chat_lightweight import ChatEngine, ChatServiceUnavailableError
 from .rag_lightweight import RAGPipeline
 
 # Load environment variables
@@ -31,10 +30,10 @@ async def initialize_components():
     """Initialize RAG pipeline and chat engine in background."""
     global rag_pipeline, chat_engine, initialization_complete
     
-    print("🚀 Initializing AI Portfolio Chatbot (Lightweight)...")
+    print("Initializing AI Portfolio Chatbot (Lightweight)...")
     
     # Initialize RAG pipeline with knowledge base
-    data_dir = os.path.join(os.path.dirname(__file__), "..", "..", "data")
+    data_dir = os.path.join(os.path.dirname(__file__), "..", "data")
     data_dir = os.path.abspath(data_dir)
     rag_pipeline = RAGPipeline(data_directory=data_dir)
     await rag_pipeline.initialize()
@@ -43,24 +42,23 @@ async def initialize_components():
     chat_engine = ChatEngine(rag_pipeline=rag_pipeline)
     
     initialization_complete = True
-    print("✅ Chatbot ready!")
+    print("Chatbot ready!")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Lifespan context manager - start background initialization."""
-    # Start initialization in background (non-blocking)
-    asyncio.create_task(initialize_components())
+    """Initialize required components before accepting traffic."""
+    await initialize_components()
     yield
     # Cleanup (if needed)
-    print("👋 Shutting down chatbot...")
+    print("Shutting down chatbot...")
 
 
 # Initialize FastAPI app with lifespan
 app = FastAPI(
     title="AI Portfolio Chatbot",
-    description="An intelligent chatbot showcasing AI engineering skills",
-    version="1.0.0",
+    description="A portfolio assistant for Shashi Bhushan Jha",
+    version="1.1.0",
     lifespan=lifespan
 )
 
@@ -88,12 +86,12 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str
-    conversation_history: Optional[List[ChatMessage]] = []
+    conversation_history: Optional[List[ChatMessage]] = Field(default_factory=list)
 
 
 class ChatResponse(BaseModel):
     response: str
-    sources: Optional[List[str]] = []
+    sources: Optional[List[str]] = Field(default_factory=list)
 
 
 # Simple in-memory rate limiting
@@ -128,7 +126,7 @@ async def root():
     return {
         "status": "online",
         "message": "AI Portfolio Chatbot API",
-        "version": "1.0.0",
+        "version": app.version,
         "ready": initialization_complete
     }
 
@@ -140,6 +138,7 @@ async def health_check():
         "status": "healthy" if initialization_complete else "initializing",
         "rag_initialized": rag_pipeline is not None,
         "chat_engine_ready": chat_engine is not None,
+        "model": chat_engine.model if chat_engine else None,
         "ready": initialization_complete
     }
 
@@ -181,8 +180,13 @@ async def chat(request: ChatRequest, req: Request):
         
         return ChatResponse(response=response, sources=sources)
     
+    except ChatServiceUnavailableError:
+        raise HTTPException(
+            status_code=503,
+            detail="The chat service is temporarily unavailable. Please try again shortly."
+        )
     except Exception as e:
-        print(f"Error in chat endpoint: {e}")
+        print(f"Error in chat endpoint ({type(e).__name__})")
         raise HTTPException(
             status_code=500,
             detail="An error occurred while processing your message."
@@ -216,8 +220,8 @@ async def chat_stream(request: ChatRequest, req: Request):
             ):
                 yield f"data: {chunk}\n\n"
             yield "data: [DONE]\n\n"
-        except Exception as e:
-            yield f"data: Error: {str(e)}\n\n"
+        except Exception:
+            yield "data: The chat service is temporarily unavailable. Please try again shortly.\n\n"
     
     return StreamingResponse(
         generate(),
@@ -236,16 +240,16 @@ async def get_info():
         "name": "Shashi's AI Assistant",
         "description": "I'm an AI assistant that can answer questions about Shashi Bhushan Jha's background, skills, projects, and experience.",
         "capabilities": [
-            "Answer questions about my skills and experience",
-            "Discuss my projects and technical work",
-            "Explain my background in AI/ML",
+            "Answer questions about Shashi's education and experience",
+            "Discuss his thesis, projects, and technical skills",
+            "Explain his research interests in quantum communication and 6G",
             "Provide contact information"
         ],
         "suggested_questions": [
-            "What are your key technical skills?",
-            "Tell me about your AI/ML projects",
-            "What's your educational background?",
-            "How can I contact you?"
+            "What was Shashi's M.Tech thesis about?",
+            "What are his current research interests?",
+            "What technical tools has he used?",
+            "How can I contact Shashi?"
         ]
     }
 

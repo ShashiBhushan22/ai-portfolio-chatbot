@@ -37,22 +37,22 @@ class RAGPipeline:
         
     async def initialize(self):
         """Initialize the RAG pipeline - load documents and create TF-IDF index."""
-        print(f"📂 Loading documents from {self.data_directory}")
+        print(f"Loading documents from {self.data_directory}")
         
         # Load documents
         self.documents = self._load_documents()
         
         if not self.documents:
-            print("⚠️ No documents found. Creating default knowledge base.")
+            print("No documents found. Creating default knowledge base.")
             self.documents = self._create_default_documents()
         
         # Split documents into chunks
         self.chunks = self._split_documents(self.documents)
-        print(f"📄 Created {len(self.chunks)} document chunks")
+        print(f"Created {len(self.chunks)} document chunks")
         
         # Create TF-IDF index
         self._create_tfidf_index()
-        print("✅ TF-IDF index created successfully")
+        print("TF-IDF index created successfully")
         
     def _load_documents(self) -> List[Document]:
         """Load documents from the data directory."""
@@ -60,7 +60,7 @@ class RAGPipeline:
         data_path = Path(self.data_directory)
         
         if not data_path.exists():
-            print(f"⚠️ Data directory not found: {self.data_directory}")
+            print(f"Data directory not found: {self.data_directory}")
             return documents
         
         # Load Markdown files
@@ -71,9 +71,9 @@ class RAGPipeline:
                     content = f.read()
                 doc = Document(content=content, metadata={"source": md_file.name})
                 documents.append(doc)
-                print(f"  ✓ Loaded: {md_file.name}")
+                print(f"  Loaded: {md_file.name}")
             except Exception as e:
-                print(f"  ✗ Error loading {md_file.name}: {e}")
+                print(f"  Error loading {md_file.name}: {e}")
         
         # Load Text files
         txt_files = list(data_path.glob("**/*.txt"))
@@ -83,32 +83,41 @@ class RAGPipeline:
                     content = f.read()
                 doc = Document(content=content, metadata={"source": txt_file.name})
                 documents.append(doc)
-                print(f"  ✓ Loaded: {txt_file.name}")
+                print(f"  Loaded: {txt_file.name}")
             except Exception as e:
-                print(f"  ✗ Error loading {txt_file.name}: {e}")
+                print(f"  Error loading {txt_file.name}: {e}")
         
-        print(f"📚 Loaded {len(documents)} documents total")
+        print(f"Loaded {len(documents)} documents total")
         return documents
     
     def _create_default_documents(self) -> List[Document]:
         """Create default documents if none exist."""
         default_content = """
-        # Shashi Bhushan Jha - AI Engineer Portfolio
+        # Shashi Bhushan Jha - Research Profile
         
         ## About
-        AI/ML Engineer specializing in deep learning, NLP, and computer vision.
-        Currently pursuing M.Tech at IIT Ropar.
+        M.Tech graduate in Electrical Engineering (Communication and Signal
+        Processing) from IIT Ropar, 2026, with a final CGPA of 7.78/10.
+
+        His completed research is in classical wireless communication. His
+        master's thesis developed analytical models and MATLAB Monte Carlo
+        simulations for generalized uplink and downlink N-user NOMA systems.
+
+        His primary prospective doctoral interest is quantum communication and
+        quantum information networking. Complementary interests include 6G,
+        optical communication, ISAC, NTN, and satellite communication. These
+        emerging topics are areas of active study, not claimed prior research.
         
         ## Skills
-        - Python, TensorFlow, PyTorch
-        - Machine Learning, Deep Learning
-        - Natural Language Processing
-        - Computer Vision
-        - Signal Processing
+        - MATLAB, Python, and C++
+        - Communication-system analysis and Monte Carlo simulation
+        - Signal processing, probability, detection, and estimation
+        - Ansys HFSS, ROS 2, Gazebo, PX4, MAVSDK, Linux, Git, and Docker
         
         ## Contact
         - Email: bhushan.gate2022@gmail.com
-        - Location: India
+        - Website: https://shashibhushanjha.me
+        - Phone: +977 9827313007; +91 7091678894
         """
         return [Document(content=default_content, metadata={"source": "default"})]
     

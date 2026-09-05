@@ -129,15 +129,18 @@ class RAGPipeline:
         default_content = """
         # About Shashi Bhushan Jha
         
-        I am an AI Engineer with expertise in Large Language Models (LLMs), 
-        Machine Learning, and Full-Stack Development.
-        
-        ## Skills
-        - Large Language Models (LLMs)
-        - RAG (Retrieval Augmented Generation)
-        - Python, FastAPI, LangChain
-        - Machine Learning & Deep Learning
-        - Natural Language Processing
+        Shashi Bhushan Jha completed an M.Tech in Electrical Engineering
+        (Communication and Signal Processing) at IIT Ropar in 2026 with a final
+        CGPA of 7.78/10. His master's research used analytical derivations and
+        MATLAB simulation to study generalized multi-user NOMA systems.
+
+        ## Research interests
+        - Quantum communication and quantum information networking
+        - 6G and beyond, optical communication, ISAC, NTN, and satellite links
+        - Multiple access and physical-layer signal processing
+
+        These emerging fields are prospective interests and areas of active
+        learning, not claims of completed quantum research.
         
         ## Contact
         Visit my portfolio at: https://shashibhushanjha.me

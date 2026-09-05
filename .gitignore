@@ -57,7 +57,7 @@ htmlcov/
 Thumbs.db
 
 # Project specific
-data/*.pdf
-!data/.gitkeep
+backend/data/*.pdf
+!backend/data/.gitkeep
 vector_store/
 *.faiss
